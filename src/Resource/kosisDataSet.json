@@ -1,0 +1,26 @@
+{
+  "Domain": "kosis",
+  "URL": "https://kosis.kr/openapi/statisticsData.do",
+  "apiKey": "NjBhZmEwNGQ5Yzc1ZDVkMzNiYTkzOWUwNmVjYzljNWM=",
+  "format": "json",
+  "parameter": [
+    {
+      "dataName": "RecruitmentRate",
+      "describe": "직종별 채용인원",
+      "userStatsId": "ehgus4308/118/DT_118N_DEN042/2/1/20210519031738",
+      "method": "getList",
+      "jsonVD": "Y",
+      "prdSe": "H",
+      "newEstPrdCnt": "1"
+    },
+    {
+      "dataName": "MonthlySalary",
+      "describe": "직종별 월급여액",
+      "userStatsId":"ehgus4308/118/DT_118N_LCE206/2/1/20210521032127",
+      "method": "getList",
+      "jsonVD":"Y",
+      "prdSe":"Y",
+      "newEstPrdCnt":"1"
+    }
+  ]
+}
