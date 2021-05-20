@@ -52,6 +52,7 @@ public class RequestDictionary {
         targetMap.put("apiKey",jsonObject.get("apiKey").toString());
         targetMap.put("format",jsonObject.get("format").toString());
         targetMap.remove("dataName");
+        targetMap.remove("describe");
         return targetMap;
     }
 
