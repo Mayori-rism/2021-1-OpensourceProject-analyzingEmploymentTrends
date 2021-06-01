@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 
 public class RequestDictionary {
+
     public enum requestSet {
         RecruitmentRate("kosis"),
         MonthlySalary("kosis");
@@ -27,13 +28,13 @@ public class RequestDictionary {
         public String getDomain() throws IOException, ParseException {
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject= null;
-            jsonObject = (JSONObject)jsonParser.parse(new FileReader(String.format("src/Resource/%sDataSet.json",this.getDomainName())));
+            jsonObject = (JSONObject)jsonParser.parse(new FileReader(String.format("Resource/%sDataSet.json",this.getDomainName())));
             return jsonObject.get("URL").toString();
         }
         public String getResponseType()throws IOException, ParseException{
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject= null;
-            jsonObject = (JSONObject)jsonParser.parse(new FileReader(String.format("src/Resource/%sDataSet.json",this.getDomainName())));
+            jsonObject = (JSONObject)jsonParser.parse(new FileReader(String.format("Resource/%sDataSet.json",this.getDomainName())));
             return  jsonObject.get("format").toString();
         }
     }
@@ -44,7 +45,7 @@ public class RequestDictionary {
         JSONArray parameterArray;
         HashMap<String,String> targetMap = null;
 
-        jsonObject = (JSONObject)jsonParser.parse(new FileReader(String.format("src/Resource/%sDataSet.json",data.getDomainName())));
+        jsonObject = (JSONObject)jsonParser.parse(new FileReader(String.format("Resource/%sDataSet.json",data.getDomainName())));
         parameterArray = (JSONArray)jsonObject.get("parameter");//get parameter
 
         for (int i = 0;i < parameterArray.size();i++){

@@ -24,9 +24,9 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException, ParseException {
 
-//        OpenDataRequest openDataRequest = new OpenDataRequest();
-//        openDataRequest.getResponseData(RequestDictionary.requestSet.MonthlySalary);
-//        openDataRequest.getResponseData(RequestDictionary.requestSet.RecruitmentRate);
+        OpenDataRequest openDataRequest = new OpenDataRequest();
+        openDataRequest.getResponseData(RequestDictionary.requestSet.MonthlySalary);
+        openDataRequest.getResponseData(RequestDictionary.requestSet.RecruitmentRate);
         launch(args);
     }
 }
