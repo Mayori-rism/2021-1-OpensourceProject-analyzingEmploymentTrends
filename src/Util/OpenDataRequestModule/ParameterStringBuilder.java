@@ -1,4 +1,4 @@
-package Util;
+package Util.OpenDataRequestModule;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

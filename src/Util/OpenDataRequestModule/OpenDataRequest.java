@@ -1,4 +1,4 @@
-package Util;
+package Util.OpenDataRequestModule;
 
 import org.json.simple.parser.ParseException;
 
@@ -29,7 +29,25 @@ public class OpenDataRequest {
         int status = con.getResponseCode();
 
         ReadableByteChannel rbc = Channels.newChannel(con.getInputStream());
-        FileOutputStream fos = new FileOutputStream(String.format("OpenData/%s.json", request.name()));
+        FileOutputStream fos = new FileOutputStream(String.format("OpenData/%s.%s", request.name(), request.getResponseType()));
+        fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+
+        rbc.close();
+        fos.close();
+        con.disconnect();
+    }
+
+    public void getResponseData(String requestUrl, Map<String, String> parameter,String fileName, String fileType) throws  IOException, ParseException {
+        URL url = new URL(requestUrl + "?"+ ParameterStringBuilder.getParamsString(parameter));
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+        con.setRequestMethod("GET");
+        con.setRequestProperty("Content-Type", "application/json");
+
+        int status = con.getResponseCode();
+
+        ReadableByteChannel rbc = Channels.newChannel(con.getInputStream());
+        FileOutputStream fos = new FileOutputStream(String.format("OpenData/%s.%s", fileName, fileType));
         fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 
         rbc.close();

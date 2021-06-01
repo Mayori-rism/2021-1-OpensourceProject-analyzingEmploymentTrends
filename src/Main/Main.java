@@ -5,15 +5,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import Util.*;
+import Util.OpenDataRequestModule.*;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+import java.util.HashMap;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        OpenDataRequest openDataRequest = new OpenDataRequest();
-        openDataRequest.getResponseData(RequestDictionary.requestSet.MonthlySalary);
-        openDataRequest.getResponseData(RequestDictionary.requestSet.RecruitmentRate);
         Parent root = FXMLLoader.load(getClass().getResource("/View/sample.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 300, 275));
@@ -21,7 +22,11 @@ public class Main extends Application {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ParseException {
+
+//        OpenDataRequest openDataRequest = new OpenDataRequest();
+//        openDataRequest.getResponseData(RequestDictionary.requestSet.MonthlySalary);
+//        openDataRequest.getResponseData(RequestDictionary.requestSet.RecruitmentRate);
         launch(args);
     }
 }

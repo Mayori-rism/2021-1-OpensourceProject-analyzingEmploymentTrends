@@ -1,4 +1,4 @@
-package Util;
+package Util.OpenDataRequestModule;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -28,10 +28,14 @@ public class RequestDictionary {
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject= null;
             jsonObject = (JSONObject)jsonParser.parse(new FileReader(String.format("src/Resource/%sDataSet.json",this.getDomainName())));
-
             return jsonObject.get("URL").toString();
         }
-
+        public String getResponseType()throws IOException, ParseException{
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject= null;
+            jsonObject = (JSONObject)jsonParser.parse(new FileReader(String.format("src/Resource/%sDataSet.json",this.getDomainName())));
+            return  jsonObject.get("format").toString();
+        }
     }
 
     public HashMap<String,String> getDataSet(requestSet data) throws IOException, ParseException {
