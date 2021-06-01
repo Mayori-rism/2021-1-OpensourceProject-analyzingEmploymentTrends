@@ -1,4 +1,4 @@
-package Util.OpenDataRequestModule;
+package Util.OpenDataRequester;
 
 import org.json.simple.parser.ParseException;
 
@@ -10,10 +10,10 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.Map;
 
-public class OpenDataRequest {
+public class OpenDataRequester {
     RequestDictionary dictionary= new RequestDictionary();
 
-    public OpenDataRequest(){
+    public OpenDataRequester(){
 
     }
 

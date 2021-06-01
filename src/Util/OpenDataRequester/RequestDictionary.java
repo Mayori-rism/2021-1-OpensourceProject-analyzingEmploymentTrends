@@ -1,4 +1,4 @@
-package Util.OpenDataRequestModule;
+package Util.OpenDataRequester;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

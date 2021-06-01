@@ -5,11 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import Util.OpenDataRequestModule.*;
+import Util.OpenDataRequester.*;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 public class Main extends Application {
 
@@ -24,7 +23,7 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException, ParseException {
 
-        OpenDataRequest openDataRequest = new OpenDataRequest();
+        OpenDataRequester openDataRequest = new OpenDataRequester();
         openDataRequest.getResponseData(RequestDictionary.requestSet.MonthlySalary);
         openDataRequest.getResponseData(RequestDictionary.requestSet.RecruitmentRate);
         launch(args);
