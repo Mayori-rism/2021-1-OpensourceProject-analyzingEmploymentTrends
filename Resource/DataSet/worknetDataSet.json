@@ -1,27 +1,17 @@
 {
-  "Domain": "Worknet",
+  "Domain": "worknet",
   "URL": "http://openapi.work.go.kr",
   "authKey": "WNKOTSAB24OI3QV77TB4K2VR1HK",
-  "format": "json",
+  "returnType":"XML",
   "parameter": [
     {
-      "APIpath": "opi/opi/opia/wantedApi.do",
-      "dataName": "wantedList",
-      "describe": "채용목록",
-      "userStatsId": "ehgus4308/118/DT_118N_DEN042/2/1/20210519031738",
-      "method": "getList",
-      "jsonVD": "Y",
-      "prdSe": "H",
-      "newEstPrdCnt": "1"
-    },
-    {
-      "dataName": "MonthlySalary",
-      "describe": "직종별 월급여액",
-      "userStatsId":"ehgus4308/118/DT_118N_LCE206/2/1/20210521032127",
-      "method": "getList",
-      "jsonVD":"Y",
-      "prdSe":"Y",
-      "newEstPrdCnt":"1"
+      "dataName": "WantedList",
+      "describe": "채용목록 API",
+      "callTp":"L",
+      "startPage": "1",
+      "display":"10"
+    },{
+
     }
   ]
 }
