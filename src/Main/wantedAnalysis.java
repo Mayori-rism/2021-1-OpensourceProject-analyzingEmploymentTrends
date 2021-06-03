@@ -15,7 +15,7 @@ import java.util.Map;
 public class wantedAnalysis {
     private OpenDataRequester requester = new OpenDataRequester();
 
-    private LocalDate targetDate = LocalDate.now().minusDays(3);
+    private LocalDate targetDate = LocalDate.now().minusDays(7);
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy-MM-dd");
 
     private Map<String, String> wantedListMap = new HashMap<String,String>();
@@ -55,7 +55,6 @@ public class wantedAnalysis {
                 date = LocalDate.parse(regDt,formatter);
 
                 wantedDetailMap.put("wantedAuthNo",wantedAuthNo);
-
                 JSONArray wantedDetailRequest = requester.getResponseData(requestUrl,wantedDetailMap,"XML");
 
                 wantedModel.setCertificateAnalysis(wantedDetailRequest.getJSONObject(0).getJSONObject("wantedDtl").getJSONObject("wantedInfo").get("certificate").toString());
@@ -70,5 +69,3 @@ public class wantedAnalysis {
         }
     }
 }
-//authKey=[인증키]&callTp=D&returnType=XML&wantedAuthNo=[구인인증번호]&infoSvc=VALIDATION
-//자동차운전면허,웹디자인기능사

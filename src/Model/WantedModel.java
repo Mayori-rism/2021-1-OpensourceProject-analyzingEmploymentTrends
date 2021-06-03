@@ -11,16 +11,18 @@ public class WantedModel {
     }
     public void setCertificateAnalysis(String certificates){
         System.out.println(certificates);
-        String pureText = certificates.replaceAll("\\([^)]+\\)","");
+        String pureText = certificates.replaceAll("\\([^\\(\\)]+\\)","");
         String[] certificate = pureText.split(",");
         for(String s :certificate){
             System.out.println(s);
-            this.certificateAnalysis.put(s,certificateAnalysis.getOrDefault(s, 0) + 1);
+            if (!s.isBlank()){
+                this.certificateAnalysis.put(s,certificateAnalysis.getOrDefault(s, 0) + 1);
+            }
         }
     }
     public List<Map.Entry<String, Integer>> getCertificateAnalysis(){
         List<Map.Entry<String, Integer>>entries = this.certificateAnalysis.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue())
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .collect(Collectors.toList());
         return entries;
     }
