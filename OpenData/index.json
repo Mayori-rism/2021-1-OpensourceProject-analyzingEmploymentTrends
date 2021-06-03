@@ -1,0 +1,67 @@
+[
+    {
+        "wantedDtl": {
+            "corpInfo": {
+                "reperNm": "박기덕",
+                "capitalAmt": "5000 백만원",
+                "homePg": "",
+                "corpAddr": "21694 인천광역시 남동구 앵고개로 516, (주)엔타스프레쉬미트",
+                "busiSize": "중소기업",
+                "totPsncnt": "49 명",
+                "corpNm": "(주)엔타스프레쉬미트",
+                "yrSalesAmt": "29000 백만원",
+                "indTpCdNm": "육류 기타 가공 및 저장처리업 (가금류 제외)",
+                "busiCont": "축산물가공업 및 식품제조업*"
+            },
+            "wantedAuthNo": "K150012106030135",
+            "wantedInfo": {
+                "selMthd": "서류,면접",
+                "minEdubgIcd": "00",
+                "empTpCd": 10,
+                "walkDistCd": 10,
+                "mltsvcExcHope": "비희망",
+                "dtlRecrContUrl": "http://www.work.go.kr/outOffer/empInfo/empDetailView.do?wantedAuthNo=K150012106030135",
+                "forLang": "",
+                "submitDoc": "이력서,기타(- 이력서 必)",
+                "enterTpNm": "경력 (최소1년) 우대",
+                "certificate": "",
+                "receiptCloseDt": 20210630,
+                "jobCont": "정육가공(갈비 등) 생산원 모집",
+                "rcptMthd": "워크넷",
+                "workdayWorkhrCont": "평일 : [월~금] 08:30~18:00 / 휴게시간 1시간 30분 \r\n(주말 휴무), 주 5일 근무, 평균근무시간 : 40",
+                "etcWelfare": "기타(경조지원)",
+                "collectPsncnt": 10,
+                "major": "",
+                "salTpNm": "연봉22,800,000원 이상, 면접 후 재조정 가능",
+                "workRegion": "(21694)  인천광역시 남동구 앵고개로 516, (주)엔타스프레쉬미트",
+                "jobsNm": "정육원(872102)",
+                "staNmCd": 9,
+                "fourIns": "국민연금 고용보험 산재보험 의료보험",
+                "empTpNm": "기간의 정함이 없는 근로계약/ 파견근로 비희망",
+                "pfCond": "",
+                "staAreaRegionCd": 28000,
+                "retirepay": "퇴직금",
+                "eduNm": "학력무관",
+                "relJobsNm": "정육원 및 도축원",
+                "etcHopeCont": "",
+                "enterTpCd": "E",
+                "regionCd": 28200,
+                "lineCd": 1,
+                "wantedTitle": "정육가공 생산원 모집",
+                "maxEdubgIcd": "00",
+                "salTpCd": "Y",
+                "exitNoCd": 3,
+                "disableCvntl": "",
+                "compAbl": "",
+                "nearLine": "1호선 동춘 3번출구 2KM",
+                "jobsCd": 872102,
+                "etcPfCond": ""
+            },
+            "empchargeInfo": {
+                "contactTelno": "032-821-7715",
+                "chargerFaxNo": "032-831-3161",
+                "empChargerDpt": ""
+            }
+        }
+    }
+]

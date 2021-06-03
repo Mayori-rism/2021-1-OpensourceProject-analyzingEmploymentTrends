@@ -5,12 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import Util.OpenDataRequester.*;
-import Util.DataProcessor.DataProcessor;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.ParseException;
+
 
 public class Main extends Application {
 
@@ -23,7 +21,8 @@ public class Main extends Application {
     }
 
 
-    public static void main(String[] args) throws IOException {
-
+    public static void main(String[] args) throws IOException, ParseException {
+        wantedAnalysis analysis = new wantedAnalysis();
+        analysis.week();
     }
 }

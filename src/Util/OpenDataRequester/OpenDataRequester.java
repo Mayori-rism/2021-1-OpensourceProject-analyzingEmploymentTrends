@@ -20,9 +20,9 @@ public class OpenDataRequester {
 
     }
 
-    public JSONObject  getResponseData(RequestDictionary.requestSet request) throws IOException{
+    public  JSONArray  getResponseData(RequestDictionary.requestSet request) throws IOException{
         Map<String, String> parameters = dictionary.getDataSet(request);
-        JSONObject jObject=new JSONObject();
+        JSONArray jObject=new JSONArray();
 
         URL url = new URL(request.getDomain() + "?"+ ParameterStringBuilder.getParamsString(parameters));
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -34,10 +34,10 @@ public class OpenDataRequester {
 
         if( request.getResponseType().equals("XML")){
             String conString = IOUtils.toString(con.getInputStream());
-            jObject.put("",XML.toJSONObject(conString));
+            jObject.put(XML.toJSONObject(conString));
         }else{
             JSONTokener tokener = new JSONTokener(con.getInputStream());
-            jObject.put("",new JSONArray(tokener));
+            jObject = new JSONArray(tokener);
         }
 
         con.disconnect();
@@ -45,8 +45,8 @@ public class OpenDataRequester {
         return jObject;
     }
 
-    public JSONObject getResponseData(String requestUrl, Map<String, String> parameter, String fileType) throws  IOException {
-        JSONObject jObject=new JSONObject();
+    public JSONArray getResponseData(String requestUrl, Map<String, String> parameter, String fileType) throws  IOException {
+        JSONArray jObject=new JSONArray();
 
         URL url = new URL(requestUrl + "?"+ ParameterStringBuilder.getParamsString(parameter));
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -58,12 +58,11 @@ public class OpenDataRequester {
 
         if( fileType.equals("XML")){
             String conString = IOUtils.toString(con.getInputStream());
-            jObject.put("",XML.toJSONObject(conString));
+            jObject.put(XML.toJSONObject(conString));
         }else{
             JSONTokener tokener = new JSONTokener(con.getInputStream());
-            jObject.put("",new JSONArray(tokener));
+            jObject = new JSONArray(tokener);
         }
-        con.disconnect();
 
         return jObject;
     }
