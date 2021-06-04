@@ -22,7 +22,7 @@ public class WantedModel {
     }
     public List<Map.Entry<String, Integer>> getCertificateAnalysis(){
         List<Map.Entry<String, Integer>>entries = this.certificateAnalysis.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))//내림차순 정렬
                 .collect(Collectors.toList());
         return entries;
     }
