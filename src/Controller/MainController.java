@@ -2,7 +2,6 @@ package Controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.chart.Chart;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -23,7 +22,7 @@ public class MainController{
     }
     @FXML
     public void initialize() throws IOException {
-        Chart barChartLayout = (Chart) FXMLLoader.load(getClass().getResource("/View/BarChart.fxml"));
+        Chart barChartLayout = (Chart) FXMLLoader.load(getClass().getResource("/View/FXML/Barchart.fxml"));
         contactPane.getChildren().add(barChartLayout);
         barChartLayout.prefWidthProperty().bind(contactPane.widthProperty());
         barChartLayout.prefHeightProperty().bind(contactPane.heightProperty());
