@@ -8,7 +8,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.text.ParseException;
-import Controller.ChartController;
 
 public class Main extends Application {
 
@@ -16,13 +15,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         System.out.println(Thread.currentThread().getName() + " : start()");
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/View/barchart.fxml"));
+        loader.setLocation(getClass().getResource("/View/MainLayout.fxml"));
 
         Parent root = (Parent)loader.load();
-        ChartController c = loader.getController();
-        c.setChartData();
+//        ChartController c = loader.getController();
+//        c.setChartData();
         primaryStage.setTitle("취업동향분석 앱 서비스");//타이틀
-        primaryStage.setScene(new Scene(root, 800, 600));
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();//윈도우
     }
     
