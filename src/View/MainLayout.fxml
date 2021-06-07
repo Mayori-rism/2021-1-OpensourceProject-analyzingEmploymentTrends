@@ -3,9 +3,9 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="mainLayoutPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainController" stylesheets="@MainLayout.css">
+<AnchorPane fx:id="mainLayoutPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@MainLayout.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainController">
    <children>
-      <Pane fx:id="navigationPane" layoutX="1010.0" maxHeight="1.7976931348623157E308" prefHeight="720.0" prefWidth="270.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1010.0" AnchorPane.topAnchor="0.0" />
+      <Pane fx:id="navigationPane" layoutX="1010.0" maxHeight="1.7976931348623157E308" prefHeight="720.0" prefWidth="270.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Pane fx:id="contactPane" layoutX="114.0" layoutY="124.0" prefHeight="553.0" prefWidth="814.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="30.0">
          <padding>
             <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />

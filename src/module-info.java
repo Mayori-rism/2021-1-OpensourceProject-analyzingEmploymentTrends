@@ -6,6 +6,7 @@ module JavaFxApplication {
     requires org.apache.commons.io;
     requires com.fasterxml.jackson.databind;
     requires org.json;
+    requires com.jfoenix;
 
     opens View;
     opens Main;

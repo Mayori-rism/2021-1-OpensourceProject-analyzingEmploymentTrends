@@ -2,7 +2,7 @@
 
 <?import javafx.scene.chart.*?>
 
-<BarChart fx:id="barChart" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ChartController">
+<BarChart fx:id="barChart" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ChartController" stylesheets="@Barchart.css" >
   <xAxis>
     <CategoryAxis />
   </xAxis>
