@@ -1,11 +1,13 @@
 #navigationPane{
-    -fx-background-color: #c1a68b;
-}
-#contactPane{
     -fx-background-color: #ffffff;
+
+}
+/*5473e8*/
+#contactPane{
+    -fx-background-color: #ebecf0;
     -fx-background-radius: 8px;
     -fx-effect: dropshadow(gaussian, #595e71, 10,0,0,0);
 }
 #mainLayoutPane{
-    -fx-background-color: #fefbf2;
+
 }
