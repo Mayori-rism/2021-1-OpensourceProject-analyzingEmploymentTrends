@@ -13,16 +13,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class wantedAnalysis {
-    private OpenDataRequester requester = new OpenDataRequester();
+    private final OpenDataRequester requester = new OpenDataRequester();
 
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy-MM-dd");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy-MM-dd");
 
-    private Map<String, String> wantedListMap = new HashMap<String,String>();
-    private Map<String, String> wantedDetailMap = new HashMap<String,String>();
+    private final Map<String, String> wantedListMap = new HashMap<String,String>();
+    private final Map<String, String> wantedDetailMap = new HashMap<String,String>();
 
-    private String requestUrl = null;
-    private WantedModel wantedModel = new WantedModel();
+    private final String requestUrl = "http://openapi.work.go.kr/opi/opi/opia/wantedApi.do";
+    private final WantedModel wantedModel = new WantedModel();
 
     wantedAnalysis(){
         this.wantedListMap.put("authKey","WNKOTSAB24OI3QV77TB4K2VR1HK");
@@ -36,12 +36,14 @@ public class wantedAnalysis {
         this.wantedDetailMap.put("returnType","XML");
         this.wantedDetailMap.put("infoSvc","VALIDATION");
         this.wantedDetailMap.put("wantedAuthNo", "");
-
-        this.requestUrl = "http://openapi.work.go.kr/opi/opi/opia/wantedApi.do";
     }
-    public WantedModel week() throws IOException, ParseException {
-        LocalDate targetDate = LocalDate.now();targetDate.minusDays(7);//target day
+
+    public WantedModel getWantedModel(int target) throws IOException, ParseException {
+        LocalDate targetDate = LocalDate.now().minusDays(target);//target day
+
         LocalDate date = LocalDate.now();//date init
+
+
 
         JSONObject jsonObject = new JSONObject();//save file data
 //        jsonObject.put("Last Update", date);
