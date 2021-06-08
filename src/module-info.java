@@ -7,6 +7,7 @@ module JavaFxApplication {
     requires com.fasterxml.jackson.databind;
     requires org.json;
     requires com.jfoenix;
+    requires poi.ooxml;
 
     opens View.FXML;
     opens View.CSS;
