@@ -6,4 +6,9 @@ public class Occupation {
     public static String parser(String code){
         return "";
     }
+    public static String[] certificatesParser(String cert) {
+        String pureText = cert.replaceAll("\\([^\\(\\)]+\\)", "");
+        String[] certificate = pureText.split(",");
+        return certificate;
+    }
 }

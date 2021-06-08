@@ -2,14 +2,17 @@ package Model;
 
 import Util.Occupation.Occupation;
 
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class OccupationModel {
     private final String occupation;
     private final Map<String, Integer> jobs = new HashMap<String, Integer>();
     private final Map<String, Integer> certificate = new HashMap<String, Integer>();
-    private final Map<String, Integer> corpAddr = new HashMap<String, Integer>();
+    private final Map<String, Integer> strtnmCds = new HashMap<String, Integer>();
 
     public OccupationModel(String occupation){
         this.occupation = Occupation.parser(occupation);
@@ -21,16 +24,19 @@ public class OccupationModel {
         }
         return false;
     }
-    public Boolean setCertificateCount(String certName){
-        if (!certName.isBlank()){
-            this.certificate.put(certName, certificate.getOrDefault(certName, 0) + 1);
-            return true;
+    public Boolean setCertificateCount(String[] certName){
+        for (int i = 0;i< certName.length;i++){
+            if (!certName[i].isBlank()){
+                this.certificate.put(certName[i], certificate.getOrDefault(certName[i], 0) + 1);
+                return true;
+            }
         }
+
         return false;
     }
-    public Boolean setCorpAddrCount(String address){
+    public Boolean setStrtnmCdCount(String address){
         if (!address.isBlank()){
-            this.corpAddr.put(address,corpAddr.getOrDefault(address, 0) + 1);
+            this.strtnmCds.put(address,strtnmCds.getOrDefault(address, 0) + 1);
             return true;
         }
         return false;
@@ -49,6 +55,13 @@ public class OccupationModel {
     }
 
     public int getCorpAddrCount(String address) {
-        return corpAddr.get(address);
+        return strtnmCds.get(address);
+    }
+
+    public List<Map.Entry<String, Integer>> getCertificateAnalysis(){
+        List<Map.Entry<String, Integer>>entries = this.certificate.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))//내림차순 정렬
+                .collect(Collectors.toList());
+        return entries;
     }
 }
