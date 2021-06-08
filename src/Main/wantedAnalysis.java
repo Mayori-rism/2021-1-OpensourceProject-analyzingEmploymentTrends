@@ -3,7 +3,6 @@ package Main;
 import Model.JobModel;
 import Model.OccupationModel;
 import Util.OpenDataRequester.*;
-import Model.WantedModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,17 +11,16 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 public class wantedAnalysis {
     private final OpenDataRequester requester = new OpenDataRequester();
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy-MM-dd");
     private final Map<String, String> wantedListMap = new HashMap<String, String>();
     private final Map<String, String> wantedDetailMap = new HashMap<String, String>();
-    private ArrayList<JobModel> jobList = new ArrayList<JobModel>();
+    private List<JobModel> jobList = new CopyOnWriteArrayList();
     private Map<String, OccupationModel> occupationMap = new HashMap<String, OccupationModel>();
     private final String requestUrl = "http://openapi.work.go.kr/opi/opi/opia/wantedApi.do";
 
@@ -80,7 +78,6 @@ public class wantedAnalysis {
 
                 jobList.add(new JobModel(company, title, occupation, sal, certificate, basicAddr, strtnmCd, zipCd, wantedInfoUrl));
             }
-            wantedListMap.computeIfPresent("startPage", (k, v) -> String.valueOf(Integer.parseInt(v) + 10));//next page
         }
     }
 
@@ -101,52 +98,78 @@ public class wantedAnalysis {
 
             lastThread = new Thread(new wantedDetail(wantedList, targetDate));
             lastThread.start();
+
+            wantedListMap.computeIfPresent("startPage", (k, v) -> String.valueOf(Integer.parseInt(v) + 10));//next page
         }
-        while (lastThread.getState() == Thread.State.TERMINATED) {
+        try {
+            System.out.println("join");
+            lastThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         for (JobModel j : jobList) {
-            if (occupationMap.get(j.getOccupation()) == null)//분석모듈을 이용해서 더 큰단위에 직종 그룹으로 기준을 해야함
+            String code =j.getOccupation().substring(0,2);
+
+            System.out.println(code);
+            if (occupationMap.get(code) == null)//분석모듈을 이용해서 더 큰단위에 직종 그룹으로 기준을 해야함
             {
-                OccupationModel model = new OccupationModel(j.getOccupation());
+                OccupationModel model = new OccupationModel(code);
                 model.setJobCount(j.getOccupation());
                 model.setStrtnmCdCount(j.getStrtnmCd());
                 model.setCertificateCount(j.getCertificate());
-                occupationMap.put(j.getOccupation(), model);
+                occupationMap.put(code, model);
             } else {
-                OccupationModel model = occupationMap.get(j.getOccupation());
+                OccupationModel model = occupationMap.get(code);
                 model.setJobCount(j.getOccupation());
                 model.setStrtnmCdCount(j.getStrtnmCd());
                 model.setCertificateCount(j.getCertificate());
+            }
+        }
+
+        for (String key:occupationMap.keySet()){
+            System.out.println(key);
+            OccupationModel item = occupationMap.get(key);
+            for (String ikey:item.getJobsCount().keySet()){
+                System.out.println(ikey+": " + item.getJobsCount().get(ikey));
             }
         }
         return occupationMap;
     }
 
     public void getAnalysisFile(Map<String, OccupationModel> occupations){
+        JSONObject jsonMainObj = new JSONObject();
+        JSONArray jsonSubArray = new JSONArray();
+        for (String key :occupations.keySet()) {
+            JSONObject jsonObject = new JSONObject();//save file data
 
-        JSONObject jsonObject = new JSONObject();//save file data
-        JSONArray jsonArray = new JSONArray();
-
-        for (int i = 0; i < occupationMap.size(); i++) {
-            List<Map.Entry<String, Integer>> entries = occupationMap.get(i).getCertificateAnalysis();
+            List<Map.Entry<String, Integer>> entries = occupations.get(key).getCertificateCount().entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))//내림차순 정렬
+                    .collect(Collectors.toList());;
             for (Map.Entry<String, Integer> entry : entries) {
                 jsonObject.put(entry.getKey(), entry.getValue());
                 System.out.println("Key: " + entry.getKey() + ", "
                         + "Value: " + entry.getValue());
             }
+            if (!jsonObject.isEmpty()){
+                jsonSubArray.put(jsonObject);
+                System.out.println(occupations.get(key).getOccupation());
+                jsonMainObj.put(occupations.get(key).getOccupation(),jsonSubArray);
+            }
         }
 
+        InputStream jsonStream = new ByteArrayInputStream(jsonMainObj.toString().getBytes());
 
-//        }
-//        for (int i = 0;i < occupationMap.size();i++){
-//            InputStream jsonStream = new ByteArrayInputStream(occupationMap.get(i).);
-//new JSONObject
-//            ReadableByteChannel rbc = Channels.newChannel(jsonStream);
-//            FileOutputStream fos = new FileOutputStream(String.format("OpenData/%s.json", request.name()));
-//            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-//            rbc.close();
-//            fos.close();
-//        }
+        ReadableByteChannel rbc = Channels.newChannel(jsonStream);
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(String.format("OpenData/wantedAnalysisData/%s.json", "CertificateAnalysis"));
+            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+            rbc.close();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

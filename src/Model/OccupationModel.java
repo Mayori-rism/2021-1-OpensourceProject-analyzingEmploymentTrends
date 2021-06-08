@@ -15,47 +15,42 @@ public class OccupationModel {
     private final Map<String, Integer> strtnmCds = new HashMap<String, Integer>();
 
     public OccupationModel(String occupation){
-        this.occupation = Occupation.parser(occupation);
+        this.occupation = occupation;
     }
-    public Boolean setJobCount(String jobName){
+    public void setJobCount(String jobName){
         if (!jobName.isBlank()){
             this.jobs.put(jobName,jobs.getOrDefault(jobName, 0) + 1);
-            return true;
         }
-        return false;
     }
-    public Boolean setCertificateCount(String[] certName){
+    public void setCertificateCount(String[] certName){
         for (int i = 0;i< certName.length;i++){
             if (!certName[i].isBlank()){
                 this.certificate.put(certName[i], certificate.getOrDefault(certName[i], 0) + 1);
-                return true;
+                return;
             }
         }
 
-        return false;
     }
-    public Boolean setStrtnmCdCount(String address){
+    public void setStrtnmCdCount(String address){
         if (!address.isBlank()){
             this.strtnmCds.put(address,strtnmCds.getOrDefault(address, 0) + 1);
-            return true;
         }
-        return false;
     }
 
     public String getOccupation() {
         return occupation;
     }
 
-    public int getJobsCount(String jobName) {
-        return jobs.get(jobName);
+    public Map<String, Integer> getJobsCount() {
+        return jobs;
     }
 
-    public int getCertificateCount(String CertName) {
-        return certificate.get(CertName);
+    public Map<String, Integer> getCertificateCount() {
+        return certificate;
     }
 
-    public int getCorpAddrCount(String address) {
-        return strtnmCds.get(address);
+    public Map<String, Integer> getCorpAddrCount() {
+        return strtnmCds;
     }
 
     public List<Map.Entry<String, Integer>> getCertificateAnalysis(){

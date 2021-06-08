@@ -40,10 +40,8 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws IOException, ParseException {
-//        System.out.println(Thread.currentThread().getName() + " : main()");
-        launch(args);
-//        wantedAnalysis analysis = new wantedAnalysis();
-//        analysis.week();
-
+//        launch(args);
+        wantedAnalysis analysis = new wantedAnalysis();
+        analysis.getAnalysisFile(analysis.getWantedData(2));
     }
 }
