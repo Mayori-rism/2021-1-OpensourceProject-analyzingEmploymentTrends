@@ -44,7 +44,9 @@ public class Main extends Application {
     	super.stop();
     }
 
-    public static void main(String[] args) throws IOException, ParseException, BiffException {
+    public static void main(String[] args) throws IOException {
 //        launch(args);
+        wantedAnalysis analysis = new wantedAnalysis();
+        analysis.getAnalysisFile(analysis.getWantedData(7));
     }
 }

@@ -2,11 +2,14 @@ package Main;
 
 import Model.JobModel;
 import Model.OccupationModel;
+import Util.Occupation.Occupation;
 import Util.OpenDataRequester.*;
+import jxl.read.biff.BiffException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.nio.BufferOverflowException;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.time.LocalDate;
@@ -82,7 +85,7 @@ public class wantedAnalysis {
     }
 
     /*매개변수로 검색간격을 설정함으로 직종별 데이터가 정리된 맵이 반환된다.*/
-    public Map<String, OccupationModel> getWantedData(int target) throws IOException {
+    public Map<String, OccupationModel> getWantedData(int target) {
         LocalDate targetDate = LocalDate.now().minusDays(target);//target day
 
         LocalDate date = LocalDate.now();//date init
@@ -91,8 +94,12 @@ public class wantedAnalysis {
         Thread lastThread = null;
         //타겟 날짜까지 체용정보 요청
         while (targetDate.isBefore(date)) {
-            System.out.println(wantedListMap.get("startPage"));
-            JSONArray wantedListRequest = requester.getResponseData(requestUrl, wantedListMap, "XML");
+            JSONArray wantedListRequest = null;
+            try {
+                wantedListRequest = requester.getResponseData(requestUrl, wantedListMap, "XML");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             JSONArray wantedList = wantedListRequest.getJSONObject(0).getJSONObject("wantedRoot").getJSONArray("wanted");
             date = LocalDate.parse(wantedList.getJSONObject(0).get("regDt").toString(), formatter);//check date
 
@@ -109,29 +116,28 @@ public class wantedAnalysis {
         }
 
         for (JobModel j : jobList) {
-            String code =j.getOccupation().substring(0,2);
-
-            System.out.println(code);
+            String code = null;
+            try {
+                code = Occupation.jobCodeParser(j.getOccupation());
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (BiffException e) {
+                e.printStackTrace();
+            }
             if (occupationMap.get(code) == null)//분석모듈을 이용해서 더 큰단위에 직종 그룹으로 기준을 해야함
             {
                 OccupationModel model = new OccupationModel(code);
+                model.setJob(j);
                 model.setJobCount(j.getOccupation());
                 model.setStrtnmCdCount(j.getStrtnmCd());
                 model.setCertificateCount(j.getCertificate());
                 occupationMap.put(code, model);
             } else {
                 OccupationModel model = occupationMap.get(code);
+                model.setJob(j);
                 model.setJobCount(j.getOccupation());
                 model.setStrtnmCdCount(j.getStrtnmCd());
                 model.setCertificateCount(j.getCertificate());
-            }
-        }
-
-        for (String key:occupationMap.keySet()){
-            System.out.println(key);
-            OccupationModel item = occupationMap.get(key);
-            for (String ikey:item.getJobsCount().keySet()){
-                System.out.println(ikey+": " + item.getJobsCount().get(ikey));
             }
         }
         return occupationMap;
@@ -139,21 +145,16 @@ public class wantedAnalysis {
 
     public void getAnalysisFile(Map<String, OccupationModel> occupations){
         JSONObject jsonMainObj = new JSONObject();
-        JSONArray jsonSubArray = new JSONArray();
         for (String key :occupations.keySet()) {
             JSONObject jsonObject = new JSONObject();//save file data
 
-            List<Map.Entry<String, Integer>> entries = occupations.get(key).getCertificateCount().entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))//내림차순 정렬
-                    .collect(Collectors.toList());;
+            List<Map.Entry<String, Integer>> entries = occupations.get(key).getCertificateAnalysis();
             for (Map.Entry<String, Integer> entry : entries) {
                 jsonObject.put(entry.getKey(), entry.getValue());
-                System.out.println("Key: " + entry.getKey() + ", "
-                        + "Value: " + entry.getValue());
+                System.out.println(jsonObject.toString());
             }
             if (!jsonObject.isEmpty()){
-                jsonSubArray.put(jsonObject);
-                System.out.println(occupations.get(key).getOccupation());
-                jsonMainObj.put(occupations.get(key).getOccupation(),jsonSubArray);
+                jsonMainObj.put(occupations.get(key).getOccupation(),jsonObject);
             }
         }
 

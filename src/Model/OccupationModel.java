@@ -2,10 +2,7 @@ package Model;
 
 import Util.Occupation.Occupation;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class OccupationModel {
@@ -13,6 +10,7 @@ public class OccupationModel {
     private final Map<String, Integer> jobs = new HashMap<String, Integer>();
     private final Map<String, Integer> certificate = new HashMap<String, Integer>();
     private final Map<String, Integer> strtnmCds = new HashMap<String, Integer>();
+    private final List<JobModel> jobModels = new ArrayList<JobModel>();
 
     public OccupationModel(String occupation){
         this.occupation = occupation;
@@ -25,11 +23,15 @@ public class OccupationModel {
     public void setCertificateCount(String[] certName){
         for (int i = 0;i< certName.length;i++){
             if (!certName[i].isBlank()){
+                System.out.println(certName[i]);
                 this.certificate.put(certName[i], certificate.getOrDefault(certName[i], 0) + 1);
                 return;
             }
         }
 
+    }
+    public void setJob(JobModel j){
+        jobModels.add(j);
     }
     public void setStrtnmCdCount(String address){
         if (!address.isBlank()){
