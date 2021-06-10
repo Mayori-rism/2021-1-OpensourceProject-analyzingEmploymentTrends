@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<HBox fx:id="itemFrame" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="300.0" stylesheets="@../CSS/wantedItem.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.WantedItemController">
+   <children>
+      <Label fx:id="company" alignment="CENTER" contentDisplay="TOP" prefHeight="100.0" prefWidth="279.0" text="company">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font></Label>
+      <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="323.0">
+         <children>
+            <Hyperlink fx:id="title" text="title">
+               <padding>
+                  <Insets bottom="8.0" left="50.0" />
+               </padding>
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font></Hyperlink>
+            <Label fx:id="basicAddr" text="basicAddr ">
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </Label>
+            <Label fx:id="sal" text="sal">
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+</HBox>

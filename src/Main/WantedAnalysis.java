@@ -6,6 +6,7 @@ import Util.Occupation.Occupation;
 import Util.OpenDataRequester.*;
 import jxl.read.biff.BiffException;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -18,7 +19,7 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
-public class wantedAnalysis {
+public class WantedAnalysis {
     private final OpenDataRequester requester = new OpenDataRequester();
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy-MM-dd");
     private final Map<String, String> wantedListMap = new HashMap<String, String>();
@@ -27,7 +28,7 @@ public class wantedAnalysis {
     private Map<String, OccupationModel> occupationMap = new HashMap<String, OccupationModel>();
     private final String requestUrl = "http://openapi.work.go.kr/opi/opi/opia/wantedApi.do";
 
-    wantedAnalysis() {
+    public WantedAnalysis() {
         this.wantedListMap.put("authKey", "WNKOTSAB24OI3QV77TB4K2VR1HK");
         this.wantedListMap.put("callTp", "L");
         this.wantedListMap.put("returnType", "XML");
@@ -43,21 +44,14 @@ public class wantedAnalysis {
 
     private class wantedDetail implements Runnable {
         private final JSONArray wantedList;
-        private final LocalDate targetDate;
 
-        public wantedDetail(JSONArray wantedList, LocalDate tagetDate) {
+        public wantedDetail(JSONArray wantedList) {
             this.wantedList = wantedList;
-            this.targetDate = tagetDate;
         }
 
         @Override
         public void run() {
             for (int i = 0; i < wantedList.length(); i++) {
-                String regDt = wantedList.getJSONObject(i).get("regDt").toString();
-
-                if (targetDate.isBefore(LocalDate.parse(regDt, formatter))) {
-                    break;
-                }
                 String wantedAuthNo = wantedList.getJSONObject(i).get("wantedAuthNo").toString();
 
                 wantedDetailMap.put("wantedAuthNo", wantedAuthNo);
@@ -67,8 +61,50 @@ public class wantedAnalysis {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                JSONObject wantedInfo = wantedDetailRequest.getJSONObject(0).getJSONObject("wantedDtl").getJSONObject("wantedInfo");
+                try {
+                    JSONObject wantedInfo = wantedDetailRequest.getJSONObject(0).getJSONObject("wantedDtl").getJSONObject("wantedInfo");
+                    String company = wantedList.getJSONObject(i).get("company").toString();
+                    String title = wantedList.getJSONObject(i).get("title").toString();
+                    String occupation = wantedList.getJSONObject(i).get("jobsCd").toString();
+                    String sal = wantedList.getJSONObject(i).get("sal").toString();
+                    String certificate = wantedInfo.get("certificate").toString();
+                    String basicAddr = wantedList.getJSONObject(i).get("basicAddr").toString();
+                    String strtnmCd = wantedList.getJSONObject(i).get("strtnmCd").toString();
+                    String zipCd = wantedList.getJSONObject(i).get("zipCd").toString();
+                    String wantedInfoUrl = wantedList.getJSONObject(i).get("wantedInfoUrl").toString();
 
+                    jobList.add(new JobModel(company, title, occupation, sal, certificate, basicAddr, strtnmCd, zipCd, wantedInfoUrl));
+                }catch(JSONException e){
+                    continue;
+                }
+            }
+            System.out.println("end");
+        }
+    }
+
+    public List<JobModel> oneStet(){
+        JSONArray wantedListRequest = null;
+        try {
+            wantedListMap.put("display","20");
+            wantedListRequest = requester.getResponseData(requestUrl, wantedListMap, "XML");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        JSONArray wantedList = wantedListRequest.getJSONObject(0).getJSONObject("wantedRoot").getJSONArray("wanted");
+        System.out.println(wantedList.toString());
+        for (int i = 0; i < wantedList.length(); i++) {
+            String wantedAuthNo = wantedList.getJSONObject(i).get("wantedAuthNo").toString();
+
+            wantedDetailMap.put("wantedAuthNo", wantedAuthNo);
+            JSONArray wantedDetailRequest = null;
+            try {
+                wantedDetailRequest = requester.getResponseData(requestUrl, wantedDetailMap, "XML");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                JSONObject wantedInfo = wantedDetailRequest.getJSONObject(0).getJSONObject("wantedDtl").getJSONObject("wantedInfo");
                 String company = wantedList.getJSONObject(i).get("company").toString();
                 String title = wantedList.getJSONObject(i).get("title").toString();
                 String occupation = wantedList.getJSONObject(i).get("jobsCd").toString();
@@ -80,8 +116,14 @@ public class wantedAnalysis {
                 String wantedInfoUrl = wantedList.getJSONObject(i).get("wantedInfoUrl").toString();
 
                 jobList.add(new JobModel(company, title, occupation, sal, certificate, basicAddr, strtnmCd, zipCd, wantedInfoUrl));
+            }catch(JSONException e){
+                continue;
             }
+
         }
+        System.out.println("end");
+
+        return jobList;
     }
 
     /*매개변수로 검색간격을 설정함으로 직종별 데이터가 정리된 맵이 반환된다.*/
@@ -89,7 +131,6 @@ public class wantedAnalysis {
         LocalDate targetDate = LocalDate.now().minusDays(target);//target day
 
         LocalDate date = LocalDate.now();//date init
-
 
         Thread lastThread = null;
         //타겟 날짜까지 체용정보 요청
@@ -103,13 +144,12 @@ public class wantedAnalysis {
             JSONArray wantedList = wantedListRequest.getJSONObject(0).getJSONObject("wantedRoot").getJSONArray("wanted");
             date = LocalDate.parse(wantedList.getJSONObject(0).get("regDt").toString(), formatter);//check date
 
-            lastThread = new Thread(new wantedDetail(wantedList, targetDate));
+            lastThread = new Thread(new wantedDetail(wantedList));
             lastThread.start();
 
             wantedListMap.computeIfPresent("startPage", (k, v) -> String.valueOf(Integer.parseInt(v) + 10));//next page
         }
         try {
-            System.out.println("join");
             lastThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -151,7 +191,6 @@ public class wantedAnalysis {
             List<Map.Entry<String, Integer>> entries = occupations.get(key).getCertificateAnalysis();
             for (Map.Entry<String, Integer> entry : entries) {
                 jsonObject.put(entry.getKey(), entry.getValue());
-                System.out.println(jsonObject.toString());
             }
             if (!jsonObject.isEmpty()){
                 jsonMainObj.put(occupations.get(key).getOccupation(),jsonObject);
@@ -162,8 +201,9 @@ public class wantedAnalysis {
 
         ReadableByteChannel rbc = Channels.newChannel(jsonStream);
         FileOutputStream fos = null;
+        System.out.println("end");
         try {
-            fos = new FileOutputStream(String.format("OpenData/wantedAnalysisData/%s.json", "CertificateAnalysis"));
+            fos = new FileOutputStream(String.format("Resource/Analysis/%s.json", "CertificateAnalysis"));
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
             rbc.close();
             fos.close();

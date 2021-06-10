@@ -80,8 +80,6 @@ public class OpenDataRequester {
 
         int status = con.getResponseCode();
 
-
-
         if( request.getResponseType().equals("XML")){
             String conString = IOUtils.toString(con.getInputStream());
             jObject = XML.toJSONObject(conString);

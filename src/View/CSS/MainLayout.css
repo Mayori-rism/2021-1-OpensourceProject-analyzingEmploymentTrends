@@ -1,13 +1,20 @@
 #navigationPane{
     -fx-background-color: #ffffff;
-
+    -fx-effect: dropshadow(gaussian, #595e71, 10,0,0,0);
+    -fx-background-radius: 5px,0,5px,0;
 }
 /*5473e8*/
 #contactPane{
-    -fx-background-color: #ebecf0;
-    -fx-background-radius: 8px;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 5px;
     -fx-effect: dropshadow(gaussian, #595e71, 10,0,0,0);
 }
 #mainLayoutPane{
 
+}
+
+.semiPane{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(gaussian, #595e71, 10,0,0,0);
 }

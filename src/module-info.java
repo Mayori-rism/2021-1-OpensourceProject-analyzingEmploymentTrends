@@ -8,6 +8,7 @@ module JavaFxApplication {
     requires org.json;
     requires com.jfoenix;
     requires jxl;
+    requires javafx.web;
 
     opens View.FXML;
     opens View.CSS;

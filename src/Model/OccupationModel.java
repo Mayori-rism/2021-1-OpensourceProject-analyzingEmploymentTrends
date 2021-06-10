@@ -23,7 +23,6 @@ public class OccupationModel {
     public void setCertificateCount(String[] certName){
         for (int i = 0;i< certName.length;i++){
             if (!certName[i].isBlank()){
-                System.out.println(certName[i]);
                 this.certificate.put(certName[i], certificate.getOrDefault(certName[i], 0) + 1);
                 return;
             }
