@@ -29,9 +29,9 @@ public class MainController{
 
     public MainController(){
 
-    }
-    @FXML
-    public void initialize() throws IOException {
+    }@FXML
+    public void initialize()
+    throws IOException {
         Chart barChartLayout = (Chart) FXMLLoader.load(getClass().getResource("/View/FXML/Barchart.fxml"));
 
         addSemi(barChartLayout);

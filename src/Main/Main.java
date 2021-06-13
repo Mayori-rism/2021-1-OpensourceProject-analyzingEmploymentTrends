@@ -1,6 +1,8 @@
 package Main;
 
+import Controller.MapChart;
 import Model.OccupationModel;
+import Util.DataProcessor.DataProcessor;
 import Util.Occupation.Occupation;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -49,9 +51,8 @@ public class Main extends Application {
     	super.stop();
     }
 
-    public static void main(String[] args) throws IOException {
-        launch(args);
-//        WantedAnalysis wantedAnalysis = new WantedAnalysis();
-//        wantedAnalysis.getAnalysisFile(wantedAnalysis.getWantedData(7));
+    public static void main(String[] args) throws IOException, BiffException {
+        MapChart mapChart = new MapChart();
+
     }
 }

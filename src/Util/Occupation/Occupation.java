@@ -6,10 +6,11 @@ import java.util.*;
 
 import jxl.Sheet;
 import jxl.Workbook;
+import jxl.format.Alignment;
+import jxl.format.Border;
 import jxl.read.biff.BiffException;
-import jxl.write.Label;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
+import jxl.format.BorderLineStyle;
+import jxl.write.*;
 
 
 public class Occupation {
@@ -75,7 +76,36 @@ public class Occupation {
         return null;
     }
 
-    public static String toExel(String code) throws IOException, BiffException {
+    public static String toExel(Map<String, Integer> map) throws IOException, BiffException, WriteException {
+
+        WritableWorkbook workbook = Workbook.createWorkbook(new File("Resource/Python/regionAnalysis"));
+
+        WritableSheet sheet = workbook.createSheet("region", 0);
+        sheet.setColumnView(0, map.size());
+        sheet.setColumnView(1, map.size());
+
+        WritableCellFormat textFormat = new WritableCellFormat();
+        int row = 0;
+
+        // 헤더
+        Label label = new jxl.write.Label(0, row, "region", textFormat);
+        sheet.addCell(label);
+        label = new jxl.write.Label(1, row, "value", textFormat);
+        sheet.addCell(label);
+
+        row++;
+        Iterator<String> key = (Iterator<String>) map.keySet();
+
+
+        while(key.hasNext()){
+            String target = key.next();
+            sheet.addCell(new jxl.write.Label(0,row, target));
+            sheet.addCell(new jxl.write.Label(0,row, map.get(target).toString()));
+            row++;
+        }
+        workbook.write();
+        workbook.close();
+
         return null;
     }
     public static String[] certificatesParser(String cert) {
