@@ -2,11 +2,11 @@
 
 <?import javafx.scene.chart.*?>
 
-<BarChart fx:id="barChart" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ChartController" stylesheets="@../CSS/Barchart.css" >
+<BarChart fx:id="barChart" stylesheets="@../CSS/Barchart.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ChartController">
   <xAxis>
-    <CategoryAxis />
+    <NumberAxis/>
   </xAxis>
   <yAxis>
-    <NumberAxis side="LEFT" />
+    <CategoryAxis/>
   </yAxis>
 </BarChart>

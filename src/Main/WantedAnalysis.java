@@ -14,6 +14,7 @@ import jxl.read.biff.BiffException;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
+
 import java.io.*;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -33,24 +34,16 @@ public class WantedAnalysis {
     private final String requestUrl = "http://openapi.work.go.kr/opi/opi/opia/wantedApi.do";
 
     public WantedAnalysis() {
-        this.wantedListMap.put("authKey", "WNKOTSAB24OI3QV77TB4K2VR1HK");
-        this.wantedListMap.put("callTp", "L");
-        this.wantedListMap.put("returnType", "XML");
-        this.wantedListMap.put("startPage", "1");
-        this.wantedListMap.put("display", "100");
 
-        this.wantedDetailMap.put("authKey", "WNKOTSAB24OI3QV77TB4K2VR1HK");
-        this.wantedDetailMap.put("callTp", "D");
-        this.wantedDetailMap.put("returnType", "XML");
-        this.wantedDetailMap.put("infoSvc", "VALIDATION");
-        this.wantedDetailMap.put("wantedAuthNo", "");
     }
 
     private class wantedDetail implements Runnable {
         private final JSONArray wantedList;
+
         public wantedDetail(JSONArray wantedList) {
             this.wantedList = wantedList;
         }
+
         @Override
         public void run() {
             for (int i = 0; i < wantedList.length(); i++) {
@@ -76,56 +69,67 @@ public class WantedAnalysis {
                     String wantedInfoUrl = wantedList.getJSONObject(i).get("wantedInfoUrl").toString();
 
                     jobList.add(new JobModel(company, title, occupation, sal, certificate, basicAddr, region, zipCd, wantedInfoUrl));
-                }catch(JSONException e){
+                } catch (JSONException e) {
                     continue;
                 }
             }
         }
     }
 
-    public List<JobModel> oneStet(){
+    public List<JobModel> oneStet() {
         JSONArray wantedListRequest = null;
+        jobList = new CopyOnWriteArrayList();
         try {
-            wantedListMap.put("display","100");
+            this.wantedListMap.put("authKey", "WNKOTSAB24OI3QV77TB4K2VR1HK");
+            this.wantedListMap.put("callTp", "L");
+            this.wantedListMap.put("returnType", "XML");
+            this.wantedListMap.put("startPage", "1");
+            this.wantedListMap.put("display", "20");
+
+            this.wantedDetailMap.put("authKey", "WNKOTSAB24OI3QV77TB4K2VR1HK");
+            this.wantedDetailMap.put("callTp", "D");
+            this.wantedDetailMap.put("returnType", "XML");
+            this.wantedDetailMap.put("infoSvc", "VALIDATION");
+            this.wantedDetailMap.put("wantedAuthNo", "");
+
+            wantedListRequest = requester.getResponseData(requestUrl, wantedListMap, "XML");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
             wantedListRequest = requester.getResponseData(requestUrl, wantedListMap, "XML");
         } catch (IOException e) {
             e.printStackTrace();
         }
         JSONArray wantedList = wantedListRequest.getJSONObject(0).getJSONObject("wantedRoot").getJSONArray("wanted");
-        System.out.println(wantedList.toString());
-        for (int i = 0; i < wantedList.length(); i++) {
-            String wantedAuthNo = wantedList.getJSONObject(i).get("wantedAuthNo").toString();
+        Thread t = new Thread(new wantedDetail(wantedList));
+        t.start();
 
-            wantedDetailMap.put("wantedAuthNo", wantedAuthNo);
-            JSONArray wantedDetailRequest = null;
-            try {
-                wantedDetailRequest = requester.getResponseData(requestUrl, wantedDetailMap, "XML");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                JSONObject wantedInfo = wantedDetailRequest.getJSONObject(0).getJSONObject("wantedDtl").getJSONObject("wantedInfo");
-                String company = wantedList.getJSONObject(i).get("company").toString();
-                String title = wantedList.getJSONObject(i).get("title").toString();
-                String occupation = wantedList.getJSONObject(i).get("jobsCd").toString();
-                String sal = wantedList.getJSONObject(i).get("sal").toString();
-                String certificate = wantedInfo.get("certificate").toString();
-                String basicAddr = wantedList.getJSONObject(i).get("basicAddr").toString();
-                String region = wantedInfo.get("regionCd").toString();
-                String zipCd = wantedList.getJSONObject(i).get("zipCd").toString();
-                String wantedInfoUrl = wantedList.getJSONObject(i).get("wantedInfoUrl").toString();
-
-                jobList.add(new JobModel(company, title, occupation, sal, certificate, basicAddr, region, zipCd, wantedInfoUrl));
-            }catch(JSONException e){
-                continue;
-            }
-
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         return jobList;
     }
 
+
     /*매개변수로 검색간격을 설정함으로 직종별 데이터가 정리된 맵이 반환된다.*/
     public Map<String, OccupationModel> getWantedData(int target) {
+
+        jobList = new CopyOnWriteArrayList();
+        this.wantedListMap.put("authKey", "WNKOTSAB24OI3QV77TB4K2VR1HK");
+        this.wantedListMap.put("callTp", "L");
+        this.wantedListMap.put("returnType", "XML");
+        this.wantedListMap.put("startPage", "1");
+        this.wantedListMap.put("display", "100");
+
+        this.wantedDetailMap.put("authKey", "WNKOTSAB24OI3QV77TB4K2VR1HK");
+        this.wantedDetailMap.put("callTp", "D");
+        this.wantedDetailMap.put("returnType", "XML");
+        this.wantedDetailMap.put("infoSvc", "VALIDATION");
+        this.wantedDetailMap.put("wantedAuthNo", "");
+
         LocalDate targetDate = LocalDate.now().minusDays(target);//target day
 
         LocalDate date = LocalDate.now();//date init
@@ -181,9 +185,9 @@ public class WantedAnalysis {
         return occupationMap;
     }
 
-    public void getAnalysisFile(Map<String, OccupationModel> occupations){
+    public void getAnalysisFile(Map<String, OccupationModel> occupations) {
         JSONObject jsonMainObj = new JSONObject();
-        for (String occKey :occupations.keySet()) {
+        for (String occKey : occupations.keySet()) {
             JSONObject occupationJSON = new JSONObject();
             JSONObject certificateJson = new JSONObject();//save file data
             JSONObject jobsJson = new JSONObject();//save file data
@@ -197,23 +201,23 @@ public class WantedAnalysis {
             Iterator<String> jobsKey = jobs.keySet().iterator();
             Iterator<String> addressKey = address.keySet().iterator();
 
-            while(certificateKey.hasNext()){
+            while (certificateKey.hasNext()) {
                 String key = certificateKey.next();
                 certificateJson.put(key, certificate.get(key));
             }
-            while(jobsKey.hasNext()){
+            while (jobsKey.hasNext()) {
                 String key = jobsKey.next();
                 jobsJson.put(key, jobs.get(key));
             }
-            while(addressKey.hasNext()){
+            while (addressKey.hasNext()) {
                 String key = addressKey.next();
                 addressJson.put(key, address.get(key));
             }
-            occupationJSON.put("certificate",certificateJson);
-            occupationJSON.put("jobs",jobsJson);
-            occupationJSON.put("address",addressJson);
+            occupationJSON.put("certificate", certificateJson);
+            occupationJSON.put("jobs", jobsJson);
+            occupationJSON.put("address", addressJson);
 
-            jsonMainObj.put(occKey,occupationJSON);
+            jsonMainObj.put(occKey, occupationJSON);
         }
         jsonMainObj.put("update date", LocalDate.now());
         InputStream jsonStream = new ByteArrayInputStream(jsonMainObj.toString().getBytes());

@@ -75,6 +75,9 @@ public class Occupation {
         return null;
     }
 
+    public static String toExel(String code) throws IOException, BiffException {
+        return null;
+    }
     public static String[] certificatesParser(String cert) {
         String pureText = cert.replaceAll("\\([^\\(\\)]+\\)", "");
         String[] certificate = pureText.split(",");

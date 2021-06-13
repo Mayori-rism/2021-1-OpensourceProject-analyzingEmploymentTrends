@@ -50,9 +50,8 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-//        launch(args);
-        WantedAnalysis wantedAnalysis = new WantedAnalysis();
-//        wantedAnalysis.getWantedData(1);
-        wantedAnalysis.getAnalysisFile(wantedAnalysis.getWantedData(7));
+        launch(args);
+//        WantedAnalysis wantedAnalysis = new WantedAnalysis();
+//        wantedAnalysis.getAnalysisFile(wantedAnalysis.getWantedData(7));
     }
 }
