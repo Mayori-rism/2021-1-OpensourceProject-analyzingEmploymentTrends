@@ -5,47 +5,29 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="502.0" prefWidth="935.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.SemiContentController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.SemiContentController">
    <children>
-      <HBox layoutX="10.0" layoutY="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <VBox layoutX="10.0" layoutY="10.0" prefHeight="300.0" prefWidth="300.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <VBox prefHeight="482.0" prefWidth="780.0">
-               <children>
-                  <Label text="Default Chart">
-                     <font>
-                        <Font name="JetBrains Mono Medium" size="24.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets left="5.0" right="5.0" top="5.0" />
-                     </VBox.margin>
-                  </Label>
-                  <Label text="yyyy. mm. dd">
-                     <VBox.margin>
-                        <Insets left="5.0" right="5.0" top="3.0" />
-                     </VBox.margin>
-                  </Label>
-                  <Pane fx:id="contents" prefHeight="441.0" prefWidth="628.0">
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </VBox.margin>
-                  </Pane>
-               </children>
-               <HBox.margin>
-                  <Insets right="50.0" />
-               </HBox.margin>
-            </VBox>
-            <ScrollPane fx:id="scroll" prefHeight="482.0" prefWidth="590.0">
-              <content>
-                  <VBox fx:id="scrollBox">
-                     <opaqueInsets>
-                        <Insets top="10.0" />
-                     </opaqueInsets></VBox>
-              </content>
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </ScrollPane>
+            <Label text="Default Chart">
+               <font>
+                  <Font name="JetBrains Mono Medium" size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </Label>
+            <Label text="yyyy. mm. dd">
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" top="3.0" />
+               </VBox.margin>
+            </Label>
+            <Pane fx:id="contents" prefHeight="441.0" prefWidth="628.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </Pane>
          </children>
-      </HBox>
+      </VBox>
    </children>
 </AnchorPane>

@@ -32,31 +32,6 @@ public class SemiContentController {
     }
     @FXML
     public void initialize() throws IOException {
-        WantedAnalysis analysis = new WantedAnalysis();
-        List<JobModel> jobs= analysis.oneStet();
 
-        for(JobModel j:jobs){
-            WebView browser = new WebView();
-            WebEngine webEngine = browser.getEngine();
-
-            HBox pane = (HBox)FXMLLoader.load(getClass().getResource("/View/FXML/wantedItemLayout.fxml"));
-            pane.prefWidthProperty().bind(scroll.widthProperty());
-            Label company = (Label) pane.lookup("#company");
-            Hyperlink title = (Hyperlink) pane.lookup("#title");
-            Label basicAddr = (Label) pane.lookup("#basicAddr");
-            Label sal = (Label) pane.lookup("#sal");
-
-            company.setText(j.getCompany());
-            title.setText(j.getTitle());
-            title.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-                    webEngine.load(j.getWantedInfoUrl());
-                }
-            });
-            basicAddr.setText(j.getBasicAddr());
-            sal.setText(j.getSal());
-            scrollBox.getChildren().add(pane);
-        }
     }
 }

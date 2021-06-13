@@ -4,9 +4,9 @@
 
 <BarChart fx:id="barChart" stylesheets="@../CSS/Barchart.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ChartController">
   <xAxis>
-    <NumberAxis/>
+    <NumberAxis />
   </xAxis>
   <yAxis>
-    <CategoryAxis/>
+    <CategoryAxis fx:id="category" />
   </yAxis>
 </BarChart>

@@ -1,54 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="wrappingPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../CSS/MainLayout.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainController">
+<AnchorPane fx:id="wrappingPane" maxHeight="1080.0" maxWidth="1920.0" minHeight="720.0" minWidth="1280.0" stylesheets="@../CSS/MainLayout.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainController">
    <children>
-      <HBox fx:id="horizonPane" layoutX="186.0" layoutY="232.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="720.0" minWidth="1040.0" prefHeight="0.0" prefWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="horizonPane" layoutY="-10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox fx:id="contentsPane" minHeight="0.0" minWidth="0.0" prefHeight="720.0" prefWidth="1040.0">
+            <AnchorPane fx:id="contentsFrame" layoutX="50.0" layoutY="50.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="290.0" AnchorPane.topAnchor="50.0">
                <children>
-                  <Label fx:id="titleLabel" text="ChartTitle" textFill="#252832">
-                     <font>
-                        <Font name="JetBrains Mono Medium" size="36.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets left="50.0" top="50.0" />
-                     </VBox.margin>
-                  </Label>
-                  <Pane fx:id="contentsFrame" minHeight="503.0" minWidth="720.0" prefHeight="564.0" prefWidth="728.0">
-                     <VBox.margin>
-                        <Insets bottom="50.0" left="50.0" right="50.0" top="30.0" />
-                     </VBox.margin>
-                  </Pane>
-               </children>
-            </VBox>
-            <AnchorPane fx:id="navigationPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="720.0" prefWidth="240.0">
-               <children>
-                  <VBox fx:id="navigation" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox fx:id="contentsPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Pane prefHeight="50.0" prefWidth="200.0" styleClass="secretItem">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
+                        <Label fx:id="titleLabel" text="ChartTitle" textFill="#252832">
+                           <font>
+                              <Font name="JetBrains Mono Medium" size="36.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="50.0" />
+                           </padding>
+                        </Label>
+                        <HBox fx:id="contents" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="940.0" spacing="40.0" VBox.vgrow="SOMETIMES">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
-                           <children>
-                              <Label alignment="CENTER" contentDisplay="CENTER" text="채용정보" textFill="WHITE">
-                                 <font>
-                                    <Font name="Arial" size="18.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </Pane>
-                     </children></VBox>
-               </children></AnchorPane>
+                        </HBox>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="navigationPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="720.0" prefWidth="240.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <VBox fx:id="navigation" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
          </children>
-      </HBox>
+      </AnchorPane>
    </children>
 </AnchorPane>

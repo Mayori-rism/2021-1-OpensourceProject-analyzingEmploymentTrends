@@ -19,6 +19,9 @@ public class ChartController {
     @FXML
     private BarChart<Integer, String> barChart;
 
+    @FXML
+    private CategoryAxis category;
+
     public ChartController() {
 
     }
@@ -55,6 +58,8 @@ public class ChartController {
             series.getData().add(new XYChart.Data<>(entries.get(i).getValue(),entries.get(i).getKey()));
         }
 
+        barChart.setLegendVisible(false);
         barChart.getData().add(series);
+
     }
 }
