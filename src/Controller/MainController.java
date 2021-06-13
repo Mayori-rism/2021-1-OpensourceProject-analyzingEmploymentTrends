@@ -1,24 +1,15 @@
 package Controller;
 
-import Main.WantedAnalysis;
-import Model.JobModel;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.chart.Chart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.Flow;
-
 
 public class MainController{
     @FXML
@@ -43,10 +34,14 @@ public class MainController{
     }@FXML
     public void initialize()
     throws IOException {
-        Chart barChartLayout = (Chart) FXMLLoader.load(getClass().getResource("/View/FXML/Barchart.fxml"));
+//        Chart barChartLayout = (Chart) FXMLLoader.load(getClass().getResource("/View/FXML/Barchart.fxml"));
+//
+//        addSemi(barChartLayout);
 
-        addSemi(barChartLayout);
-        addSemi(barChartLayout);
+        ImageView webView = (ImageView)FXMLLoader.load(getClass().getResource("/View/FXML/wantedMap.fxml"));
+        webView.setPreserveRatio(true);
+        addSemi(webView);
+
     }
     public void addSemi() throws IOException {
         AnchorPane semiContentLayout = (AnchorPane) FXMLLoader.load(getClass().getResource("/View/FXML/SemiContentLayout.fxml"));
@@ -60,6 +55,14 @@ public class MainController{
         Pane p = (Pane) semiContentLayout.lookup("#contents");
         layout.prefWidthProperty().bind(p.widthProperty());
         layout.prefHeightProperty().bind(p.heightProperty());
+
+        p.getChildren().add(layout);
+        contents.getChildren().add(semiContentLayout);
+    }
+    public void addSemi(Node layout) throws IOException {
+        AnchorPane semiContentLayout = (AnchorPane) FXMLLoader.load(getClass().getResource("/View/FXML/SemiContentLayout.fxml"));
+        semiContentLayout.getStyleClass().add("semiPane");
+        Pane p = (Pane) semiContentLayout.lookup("#contents");
 
         p.getChildren().add(layout);
         contents.getChildren().add(semiContentLayout);

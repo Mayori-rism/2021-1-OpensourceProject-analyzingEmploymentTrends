@@ -1,9 +1,6 @@
 package Main;
 
-import Controller.MapChart;
-import Model.OccupationModel;
 import Util.DataProcessor.DataProcessor;
-import Util.Occupation.Occupation;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,16 +10,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import jxl.read.biff.BiffException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+
 
 public class Main extends Application {
 
@@ -53,5 +42,10 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException, BiffException {
         launch(args);
+//        DataProcessor a = new DataProcessor();
+//        String a1 = "울산광역시,대전광역시,광주광역시,전라남도,경기도,전라북도,부산광역시,경상남도,대구광역시,충청북도,서울특별시,충청남도,제주특별자치도,경상북도,강원도,인천광역시,세종특별자치시";
+//        String a2 = "45,36,48,77,754,97,139,146,93,101,308,105,26,126,57,165,14";
+//        a.callProcessor(a1,a2);
     }
+
 }

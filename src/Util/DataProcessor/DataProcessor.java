@@ -26,7 +26,7 @@ public class DataProcessor {
         }
     }
 
-    public static void execPython(String[] command) throws IOException, InterruptedException {
+    public void execPython(String[] command) throws IOException, InterruptedException {
         CommandLine commandLine = CommandLine.parse(command[0]);
         for (int i = 1, n = command.length; i < n; i++) {
             System.out.println(command[i]);
