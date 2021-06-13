@@ -9,7 +9,7 @@ public class OccupationModel {
     private final String occupation;
     private final Map<String, Integer> jobs = new HashMap<String, Integer>();
     private final Map<String, Integer> certificate = new HashMap<String, Integer>();
-    private final Map<String, Integer> strtnmCds = new HashMap<String, Integer>();
+    private final Map<String, Integer> regions = new HashMap<String, Integer>();
     private final List<JobModel> jobModels = new ArrayList<JobModel>();
 
     public OccupationModel(String occupation){
@@ -27,14 +27,13 @@ public class OccupationModel {
                 return;
             }
         }
-
     }
     public void setJob(JobModel j){
         jobModels.add(j);
     }
     public void setStrtnmCdCount(String address){
         if (!address.isBlank()){
-            this.strtnmCds.put(address,strtnmCds.getOrDefault(address, 0) + 1);
+            this.regions.put(address,regions.getOrDefault(address, 0) + 1);
         }
     }
 
@@ -51,13 +50,10 @@ public class OccupationModel {
     }
 
     public Map<String, Integer> getCorpAddrCount() {
-        return strtnmCds;
+        return regions;
     }
 
-    public List<Map.Entry<String, Integer>> getCertificateAnalysis(){
-        List<Map.Entry<String, Integer>>entries = this.certificate.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))//내림차순 정렬
-                .collect(Collectors.toList());
-        return entries;
+    public Map<String, Integer> getCertificateAnalysis(){
+       return certificate;
     }
 }

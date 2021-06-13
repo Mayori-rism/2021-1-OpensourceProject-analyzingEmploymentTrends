@@ -21,8 +21,6 @@ public class Occupation {
         final Workbook workbook = Workbook.getWorkbook(new File("Resource/ExelResource/occupationCode.xls"));
         Sheet sheet = workbook.getSheet(0);
         int rows = sheet.getRows();
-        int columns = sheet.getColumns();
-
         for (int i = 0; i < rows; i++) {
             if (sheet.getCell(0,i).getContents().equals(code)){
                 for (int j = i; 0 <= j; j--) {
@@ -33,12 +31,28 @@ public class Occupation {
                     }
                 }
             }
-
         }
         workbook.close();
         return null;
     }
-
+    public static String provincesCodeParser(String code) throws IOException, BiffException {//직업코드를 최상위 직종코드로 바꾸는 파서
+        final Workbook workbook = Workbook.getWorkbook(new File("Resource/ExelResource/ProvincesCode.xls"));
+        Sheet sheet = workbook.getSheet(0);
+        int rows = sheet.getRows();
+        for (int i = 0; i < rows; i++) {
+            if (sheet.getCell(0,i).getContents().equals(code)){
+                for (int j = i; 0 <= j; j--) {
+                    if(!sheet.getCell(1, j).getContents().isBlank()){
+                        String s = sheet.getCell(1, j).getContents();
+                        workbook.close();
+                        return s;
+                    }
+                }
+            }
+        }
+        workbook.close();
+        return null;
+    }
     public static String toText(String code) throws IOException, BiffException {//직업코드를 최상위 직종코드로 바꾸는 파서
         final Workbook workbook = Workbook.getWorkbook(new File("Resource/ExelResource/occupationCode.xls"));
         Sheet sheet = workbook.getSheet(0);

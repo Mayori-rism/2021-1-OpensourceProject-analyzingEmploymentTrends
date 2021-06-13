@@ -1,7 +1,7 @@
 #navigationPane{
     -fx-background-color: #ffffff;
     -fx-effect: dropshadow(gaussian, #595e71, 10,0,0,0);
-    -fx-background-radius: 5px,0,5px,0;
+    -fx-background-radius: 5px,0px,5px,0px;
 }
 /*5473e8*/
 #contactPane{
@@ -12,9 +12,12 @@
 #mainLayoutPane{
 
 }
-
 .semiPane{
     -fx-background-color: #ffffff;
     -fx-background-radius: 5px;
     -fx-effect: dropshadow(gaussian, #595e71, 10,0,0,0);
+}
+.secretItem{
+    -fx-background-color: #5473e8;
+    -fx-background-radius: 8px,0px,8px,0px;
 }

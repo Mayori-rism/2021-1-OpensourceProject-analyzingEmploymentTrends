@@ -1,6 +1,9 @@
 package Model;
 
 import Util.Occupation.Occupation;
+import jxl.read.biff.BiffException;
+
+import java.io.IOException;
 
 public class JobModel {
     private String company;
@@ -9,18 +12,18 @@ public class JobModel {
     private String sal;
     private String[] certificate;
     private String basicAddr;
-    private String strtnmCd;
+    private String region;
     private String zipCd;
     private String wantedInfoUrl;
 
-    public JobModel(String company, String title, String occupation, String sal, String certificate, String basicAddr, String strtnmCd, String zipCd, String wantedInfoUrl) {
+    public JobModel(String company, String title, String occupation, String sal, String certificate, String basicAddr, String region, String zipCd, String wantedInfoUrl) {
         this.company = company;
         this.title = title;
         this.occupation = occupation;
         this.sal = sal;
         this.certificate = Occupation.certificatesParser(certificate);
         this.basicAddr = basicAddr;
-        this.strtnmCd = strtnmCd;
+        this.region = region;
         this.zipCd = zipCd;
         this.wantedInfoUrl = wantedInfoUrl;
     }
@@ -46,7 +49,7 @@ public class JobModel {
     }
 
     public String getStrtnmCd() {
-        return strtnmCd;
+        return region;
     }
 
     public String getTitle() {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -28,7 +29,24 @@
             </VBox>
             <AnchorPane fx:id="navigationPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="720.0" prefWidth="240.0">
                <children>
-                  <VBox fx:id="navigation" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <VBox fx:id="navigation" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Pane prefHeight="50.0" prefWidth="200.0" styleClass="secretItem">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" text="채용정보" textFill="WHITE">
+                                 <font>
+                                    <Font name="Arial" size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </children></VBox>
                </children></AnchorPane>
          </children>
       </HBox>

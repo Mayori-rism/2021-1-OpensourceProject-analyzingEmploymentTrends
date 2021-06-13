@@ -8,16 +8,20 @@ import jxl.read.biff.BiffException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
 import java.io.*;
-import java.nio.BufferOverflowException;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.Collectors;
+
 
 public class WantedAnalysis {
     private final OpenDataRequester requester = new OpenDataRequester();
@@ -44,11 +48,9 @@ public class WantedAnalysis {
 
     private class wantedDetail implements Runnable {
         private final JSONArray wantedList;
-
         public wantedDetail(JSONArray wantedList) {
             this.wantedList = wantedList;
         }
-
         @Override
         public void run() {
             for (int i = 0; i < wantedList.length(); i++) {
@@ -69,23 +71,22 @@ public class WantedAnalysis {
                     String sal = wantedList.getJSONObject(i).get("sal").toString();
                     String certificate = wantedInfo.get("certificate").toString();
                     String basicAddr = wantedList.getJSONObject(i).get("basicAddr").toString();
-                    String strtnmCd = wantedList.getJSONObject(i).get("strtnmCd").toString();
+                    String region = wantedInfo.get("regionCd").toString();
                     String zipCd = wantedList.getJSONObject(i).get("zipCd").toString();
                     String wantedInfoUrl = wantedList.getJSONObject(i).get("wantedInfoUrl").toString();
 
-                    jobList.add(new JobModel(company, title, occupation, sal, certificate, basicAddr, strtnmCd, zipCd, wantedInfoUrl));
+                    jobList.add(new JobModel(company, title, occupation, sal, certificate, basicAddr, region, zipCd, wantedInfoUrl));
                 }catch(JSONException e){
                     continue;
                 }
             }
-            System.out.println("end");
         }
     }
 
     public List<JobModel> oneStet(){
         JSONArray wantedListRequest = null;
         try {
-            wantedListMap.put("display","20");
+            wantedListMap.put("display","100");
             wantedListRequest = requester.getResponseData(requestUrl, wantedListMap, "XML");
         } catch (IOException e) {
             e.printStackTrace();
@@ -102,7 +103,6 @@ public class WantedAnalysis {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             try {
                 JSONObject wantedInfo = wantedDetailRequest.getJSONObject(0).getJSONObject("wantedDtl").getJSONObject("wantedInfo");
                 String company = wantedList.getJSONObject(i).get("company").toString();
@@ -111,18 +111,16 @@ public class WantedAnalysis {
                 String sal = wantedList.getJSONObject(i).get("sal").toString();
                 String certificate = wantedInfo.get("certificate").toString();
                 String basicAddr = wantedList.getJSONObject(i).get("basicAddr").toString();
-                String strtnmCd = wantedList.getJSONObject(i).get("strtnmCd").toString();
+                String region = wantedInfo.get("regionCd").toString();
                 String zipCd = wantedList.getJSONObject(i).get("zipCd").toString();
                 String wantedInfoUrl = wantedList.getJSONObject(i).get("wantedInfoUrl").toString();
 
-                jobList.add(new JobModel(company, title, occupation, sal, certificate, basicAddr, strtnmCd, zipCd, wantedInfoUrl));
+                jobList.add(new JobModel(company, title, occupation, sal, certificate, basicAddr, region, zipCd, wantedInfoUrl));
             }catch(JSONException e){
                 continue;
             }
 
         }
-        System.out.println("end");
-
         return jobList;
     }
 
@@ -185,18 +183,39 @@ public class WantedAnalysis {
 
     public void getAnalysisFile(Map<String, OccupationModel> occupations){
         JSONObject jsonMainObj = new JSONObject();
-        for (String key :occupations.keySet()) {
-            JSONObject jsonObject = new JSONObject();//save file data
+        for (String occKey :occupations.keySet()) {
+            JSONObject occupationJSON = new JSONObject();
+            JSONObject certificateJson = new JSONObject();//save file data
+            JSONObject jobsJson = new JSONObject();//save file data
+            JSONObject addressJson = new JSONObject();//save file data
 
-            List<Map.Entry<String, Integer>> entries = occupations.get(key).getCertificateAnalysis();
-            for (Map.Entry<String, Integer> entry : entries) {
-                jsonObject.put(entry.getKey(), entry.getValue());
+            Map<String, Integer> certificate = occupations.get(occKey).getCertificateCount();
+            Map<String, Integer> jobs = occupations.get(occKey).getJobsCount();
+            Map<String, Integer> address = occupations.get(occKey).getCorpAddrCount();
+
+            Iterator<String> certificateKey = certificate.keySet().iterator();
+            Iterator<String> jobsKey = jobs.keySet().iterator();
+            Iterator<String> addressKey = address.keySet().iterator();
+
+            while(certificateKey.hasNext()){
+                String key = certificateKey.next();
+                certificateJson.put(key, certificate.get(key));
             }
-            if (!jsonObject.isEmpty()){
-                jsonMainObj.put(occupations.get(key).getOccupation(),jsonObject);
+            while(jobsKey.hasNext()){
+                String key = jobsKey.next();
+                jobsJson.put(key, jobs.get(key));
             }
+            while(addressKey.hasNext()){
+                String key = addressKey.next();
+                addressJson.put(key, address.get(key));
+            }
+            occupationJSON.put("certificate",certificateJson);
+            occupationJSON.put("jobs",jobsJson);
+            occupationJSON.put("address",addressJson);
+
+            jsonMainObj.put(occKey,occupationJSON);
         }
-
+        jsonMainObj.put("update date", LocalDate.now());
         InputStream jsonStream = new ByteArrayInputStream(jsonMainObj.toString().getBytes());
 
         ReadableByteChannel rbc = Channels.newChannel(jsonStream);
