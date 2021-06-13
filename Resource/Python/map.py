@@ -27,8 +27,8 @@ def main(argv):
                       fill_opacity=0.8
                       ).add_to(m)
 
-    m.save('folium_kr.html')
-    return "/Resource/Python/folium_kr.html"
+    m.save('Resource/Python/folium_kr.html')
+    print("/Resource/Python/folium_kr.html")
 
 
 if __name__ == "__main__":
