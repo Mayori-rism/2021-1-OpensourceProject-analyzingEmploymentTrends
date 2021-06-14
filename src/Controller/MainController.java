@@ -5,9 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.chart.Chart;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.web.WebView;
 
 import java.io.IOException;
 
@@ -26,22 +24,28 @@ public class MainController{
     private HBox  contents;
     @FXML
     private AnchorPane navigationPane;
-    @FXML
-    private VBox navigation;
 
-    public MainController(){
+    private VBox navigation = null;
+    private Chart barChartLayout =null;
 
+    private final String navigationItemPath = "/View/FXML/NavigationItem.fxml";
+    private final String navigationPath = "/View/FXML/Navigation.fxml";
+    private final String barChartPath = "/View/FXML/Barchart.fxml";
+
+    public MainController() throws IOException {
+        this.navigation = (VBox) FXMLLoader.load(getClass().getResource(navigationPath));
+        this.barChartLayout = (Chart) FXMLLoader.load(getClass().getResource(barChartPath));
     }@FXML
     public void initialize()
     throws IOException {
-//        Chart barChartLayout = (Chart) FXMLLoader.load(getClass().getResource("/View/FXML/Barchart.fxml"));
-//
-//        addSemi(barChartLayout);
-
-        ImageView webView = (ImageView)FXMLLoader.load(getClass().getResource("/View/FXML/wantedMap.fxml"));
-        webView.setPreserveRatio(true);
-        addSemi(webView);
-
+        /*set navigation*/
+        AnchorPane.setTopAnchor(navigation, 0.0);
+        navigationPane.getChildren().add(navigation);
+        /*set default pane*/
+        addSemi(barChartLayout);
+//        ImageView webView = (ImageView)FXMLLoader.load(getClass().getResource("/View/FXML/wantedMap.fxml"));
+//        webView.setPreserveRatio(true);
+//        addSemi(webView);
     }
     public void addSemi() throws IOException {
         AnchorPane semiContentLayout = (AnchorPane) FXMLLoader.load(getClass().getResource("/View/FXML/SemiContentLayout.fxml"));

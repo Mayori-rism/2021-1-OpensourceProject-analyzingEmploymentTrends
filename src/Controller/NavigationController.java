@@ -1,9 +1,10 @@
 package Controller;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -12,25 +13,25 @@ import java.util.List;
 
 public class NavigationController {
     @FXML
-    private VBox navigate;
+    private VBox navigation;
 
-    MainController mainController = new MainController();
+    private String navigationItemPath = "/View/FXML/NavigationItem.fxml";
 
     private List<Button> buttons = new ArrayList<>();
+
     public NavigationController(){
-        Button semiButton = new Button();
-        semiButton.setOnAction(event -> {
-            try {
-                mainController.addSemi();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        buttons.add(semiButton);
+
     }
 
     @FXML
     public void initialize() throws IOException {
-        navigate.getChildren().addAll(buttons);
+        addNaviItem("자격증 트랜드");
+    }
+
+    public void addNaviItem(String category) throws IOException {
+        AnchorPane item = (AnchorPane) FXMLLoader.load(getClass().getResource(navigationItemPath));
+        Label label = (Label) item.lookup("#categoryLabel");
+        label.setText(category);
+        navigation.getChildren().add(item);
     }
 }
