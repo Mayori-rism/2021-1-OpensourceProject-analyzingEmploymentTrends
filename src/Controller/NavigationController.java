@@ -1,10 +1,15 @@
 package Controller;
 
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -19,19 +24,30 @@ public class NavigationController {
 
     private List<Button> buttons = new ArrayList<>();
 
+
     public NavigationController(){
 
     }
 
     @FXML
     public void initialize() throws IOException {
-        addNaviItem("자격증 트랜드");
     }
 
-    public void addNaviItem(String category) throws IOException {
+    public void addNaviItem(HBox contentsPane, String name, AnchorPane category) throws IOException {
         AnchorPane item = (AnchorPane) FXMLLoader.load(getClass().getResource(navigationItemPath));
         Label label = (Label) item.lookup("#categoryLabel");
-        label.setText(category);
+        label.setText(name);
+
+        item.addEventFilter(MouseEvent.MOUSE_CLICKED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        contentsPane.getChildren().clear();
+                        contentsPane.getChildren().add(category);
+                    }
+                });
         navigation.getChildren().add(item);
     }
+
+
 }

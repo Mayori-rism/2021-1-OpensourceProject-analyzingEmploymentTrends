@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+
+<ImageView fx:id="view" fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MapController">
+   <viewport>
+      <Rectangle2D />
+   </viewport>
+</ImageView>

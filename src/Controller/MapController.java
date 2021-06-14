@@ -18,12 +18,12 @@ import java.io.IOException;
 import java.util.*;
 
 
-public class MapChart{
+public class MapController {
     private String url ="/Resource/Python/map.png";
     @FXML
     private ImageView view;
 
-    public MapChart() throws IOException, BiffException {
+    public MapController() throws IOException, BiffException {
 //        FileInputStream file = new FileInputStream("Resource/Analysis/CertificateAnalysis.json");
 //        JSONTokener token = new JSONTokener(file);
 //        JSONObject jsonObject = new JSONObject(token);

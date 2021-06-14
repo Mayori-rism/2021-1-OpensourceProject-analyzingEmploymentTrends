@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.chart.Chart;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
@@ -21,38 +22,61 @@ public class MainController{
     @FXML
     private VBox  contentsPane;
     @FXML
-    private HBox  contents;
+    private HBox contents;
     @FXML
     private AnchorPane navigationPane;
 
     private VBox navigation = null;
     private Chart barChartLayout =null;
+    private ImageView mapLayout = null;
 
     private final String navigationItemPath = "/View/FXML/NavigationItem.fxml";
     private final String navigationPath = "/View/FXML/Navigation.fxml";
     private final String barChartPath = "/View/FXML/Barchart.fxml";
+    private final String mpaPath = "/View/FXML/Map.fxml";
+
+    private NavigationController naviController = null;
+    private ChartController chartController = null;
+    private MapController mapController =null;
+    enum categorys{
+        certificate,region
+    }
 
     public MainController() throws IOException {
-        this.navigation = (VBox) FXMLLoader.load(getClass().getResource(navigationPath));
-        this.barChartLayout = (Chart) FXMLLoader.load(getClass().getResource(barChartPath));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource(navigationPath));
+        this.navigation = (VBox) loader.load();
+        naviController = loader.getController();
+
+        loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource(barChartPath));
+        this.barChartLayout = (Chart) loader.load();
+        chartController =loader.getController();
+
+
+        loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource(mpaPath));
+        this.mapLayout = (ImageView) loader.load();
+        mapController = loader.getController();
+
+
     }@FXML
     public void initialize()
     throws IOException {
         /*set navigation*/
         AnchorPane.setTopAnchor(navigation, 0.0);
         navigationPane.getChildren().add(navigation);
+        /*add category*/
+        AnchorPane chartSemi = getSemi(barChartLayout);
+        AnchorPane mapSemi = getSemi(mapLayout);
+        
+        naviController.addNaviItem(contents,"최근 인기 체용 자격증",chartSemi);
+        naviController.addNaviItem(contents,"최근 체용 지역",mapSemi);
         /*set default pane*/
-        addSemi(barChartLayout);
-//        ImageView webView = (ImageView)FXMLLoader.load(getClass().getResource("/View/FXML/wantedMap.fxml"));
-//        webView.setPreserveRatio(true);
-//        addSemi(webView);
+//        contents.getChildren().add(chartSemi);
+        
     }
-    public void addSemi() throws IOException {
-        AnchorPane semiContentLayout = (AnchorPane) FXMLLoader.load(getClass().getResource("/View/FXML/SemiContentLayout.fxml"));
-        semiContentLayout.getStyleClass().add("semiPane");
-        contents.getChildren().add(semiContentLayout);
-    }
-    public void addSemi(Region layout) throws IOException {
+    public AnchorPane getSemi(Region layout) throws IOException {
         AnchorPane semiContentLayout = (AnchorPane) FXMLLoader.load(getClass().getResource("/View/FXML/SemiContentLayout.fxml"));
         semiContentLayout.getStyleClass().add("semiPane");
 
@@ -61,16 +85,17 @@ public class MainController{
         layout.prefHeightProperty().bind(p.heightProperty());
 
         p.getChildren().add(layout);
-        contents.getChildren().add(semiContentLayout);
+        return semiContentLayout;
     }
-    public void addSemi(Node layout) throws IOException {
+    public AnchorPane getSemi(Node layout) throws IOException {
         AnchorPane semiContentLayout = (AnchorPane) FXMLLoader.load(getClass().getResource("/View/FXML/SemiContentLayout.fxml"));
         semiContentLayout.getStyleClass().add("semiPane");
         Pane p = (Pane) semiContentLayout.lookup("#contents");
 
         p.getChildren().add(layout);
-        contents.getChildren().add(semiContentLayout);
+        return semiContentLayout;
     }
+
 
 //    public void a(){
 //        WantedAnalysis analysis = new WantedAnalysis();
