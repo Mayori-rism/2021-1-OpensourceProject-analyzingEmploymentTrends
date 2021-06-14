@@ -22,7 +22,7 @@ public class NavigationController {
 
     private String navigationItemPath = "/View/FXML/NavigationItem.fxml";
 
-    private List<Button> buttons = new ArrayList<>();
+    private ArrayList<AnchorPane> items = new ArrayList<>();
 
 
     public NavigationController(){
@@ -42,12 +42,19 @@ public class NavigationController {
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
+                        removeStyleClass();
+                        item.getStyleClass().add("selectedItem");
                         contentsPane.getChildren().clear();
                         contentsPane.getChildren().add(category);
                     }
                 });
+        items.add(item);
         navigation.getChildren().add(item);
     }
 
-
+    private void removeStyleClass(){
+        for (AnchorPane item:items){
+            item.getStyleClass().remove("selectedItem");
+        }
+    }
 }

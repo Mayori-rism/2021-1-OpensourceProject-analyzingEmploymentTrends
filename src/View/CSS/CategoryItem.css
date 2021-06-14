@@ -1,0 +1,9 @@
+/*#itemFrame{*/
+/*    -fx-background-color: #ffffff;*/
+/*    -fx-background-radius: 3px;*/
+/*}*/
+
+.selectedItem{
+    -fx-background-color: #5473e8;
+    -fx-background-radius: 3px;
+}
