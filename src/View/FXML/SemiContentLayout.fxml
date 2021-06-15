@@ -9,7 +9,7 @@
    <children>
       <VBox layoutX="10.0" layoutY="10.0" prefHeight="300.0" prefWidth="300.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <Label text="Default Chart">
+            <Label fx:id="semiTitle" text="Default Chart">
                <font>
                   <Font name="JetBrains Mono Medium" size="24.0" />
                </font>

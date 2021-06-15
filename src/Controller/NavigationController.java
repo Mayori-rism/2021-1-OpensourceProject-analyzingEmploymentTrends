@@ -33,10 +33,13 @@ public class NavigationController {
     public void initialize() throws IOException {
     }
 
-    public void addNaviItem(HBox contentsPane, String name, AnchorPane category) throws IOException {
+    public void addNaviItem(AnchorPane wrappingPane, String name, AnchorPane category) throws IOException {
         AnchorPane item = (AnchorPane) FXMLLoader.load(getClass().getResource(navigationItemPath));
         Label label = (Label) item.lookup("#categoryLabel");
         label.setText(name);
+
+        Label mainLabel = (Label)wrappingPane.lookup("#mainTitle");
+        HBox mainPane = (HBox)wrappingPane.lookup("#contents");
 
         item.addEventFilter(MouseEvent.MOUSE_CLICKED,
                 new EventHandler<MouseEvent>() {
@@ -44,8 +47,11 @@ public class NavigationController {
                     public void handle(MouseEvent event) {
                         removeStyleClass();
                         item.getStyleClass().add("selectedItem");
-                        contentsPane.getChildren().clear();
-                        contentsPane.getChildren().add(category);
+
+                        mainPane.getChildren().clear();
+                        mainPane.getChildren().add(category);
+
+                        mainLabel.setText(name);
                     }
                 });
         items.add(item);

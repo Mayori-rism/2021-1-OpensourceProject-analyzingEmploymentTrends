@@ -13,7 +13,7 @@
                <children>
                   <VBox fx:id="contentsPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Label fx:id="titleLabel" text="ChartTitle" textFill="#252832">
+                        <Label fx:id="mainTitle" text="ChartTitle" textFill="#252832">
                            <font>
                               <Font name="JetBrains Mono Medium" size="36.0" />
                            </font>

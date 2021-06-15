@@ -16,7 +16,7 @@ public class MainController{
     @FXML
     private AnchorPane horizonPane;
     @FXML
-    private Label titleLabel;
+    private Label mainTitle;
     @FXML
     private AnchorPane  contentsFrame;
     @FXML
@@ -67,18 +67,21 @@ public class MainController{
         AnchorPane.setTopAnchor(navigation, 0.0);
         navigationPane.getChildren().add(navigation);
         /*add category*/
-        AnchorPane chartSemi = getSemi(barChartLayout);
-        AnchorPane mapSemi = getSemi(mapLayout);
+        AnchorPane chartSemi = getSemi(barChartLayout, "자격증 트렌드");
+        AnchorPane mapSemi = getSemi(mapLayout, "전국 채용 트렌드");
         
-        naviController.addNaviItem(contents,"최근 인기 체용 자격증",chartSemi);
-        naviController.addNaviItem(contents,"최근 체용 지역",mapSemi);
+        naviController.addNaviItem(wrappingPane,"기술 트렌드",chartSemi);
+        naviController.addNaviItem(wrappingPane,"지역 트렌드",mapSemi);
         /*set default pane*/
 //        contents.getChildren().add(chartSemi);
         
     }
-    public AnchorPane getSemi(Region layout) throws IOException {
+    public AnchorPane getSemi(Region layout, String title) throws IOException {
         AnchorPane semiContentLayout = (AnchorPane) FXMLLoader.load(getClass().getResource("/View/FXML/SemiContentLayout.fxml"));
         semiContentLayout.getStyleClass().add("semiPane");
+
+        Label semiTitle = (Label) semiContentLayout.lookup("#semiTitle");
+        semiTitle.setText(title);
 
         Pane p = (Pane) semiContentLayout.lookup("#contents");
         layout.prefWidthProperty().bind(p.widthProperty());
@@ -87,9 +90,13 @@ public class MainController{
         p.getChildren().add(layout);
         return semiContentLayout;
     }
-    public AnchorPane getSemi(Node layout) throws IOException {
+    public AnchorPane getSemi(Node layout, String title) throws IOException {
         AnchorPane semiContentLayout = (AnchorPane) FXMLLoader.load(getClass().getResource("/View/FXML/SemiContentLayout.fxml"));
         semiContentLayout.getStyleClass().add("semiPane");
+
+        Label semiTitle = (Label) semiContentLayout.lookup("#semiTitle");
+        semiTitle.setText(title);
+        
         Pane p = (Pane) semiContentLayout.lookup("#contents");
 
         p.getChildren().add(layout);
