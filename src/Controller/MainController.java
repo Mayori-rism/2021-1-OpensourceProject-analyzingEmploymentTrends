@@ -29,14 +29,16 @@ public class MainController{
     private VBox navigation = null;
     private Chart barChartLayout =null;
     private ImageView mapLayout = null;
+    private Chart lineChartLayout = null;
 
     private final String navigationItemPath = "/View/FXML/NavigationItem.fxml";
     private final String navigationPath = "/View/FXML/Navigation.fxml";
     private final String barChartPath = "/View/FXML/Barchart.fxml";
-    private final String mpaPath = "/View/FXML/Map.fxml";
+    private final String mapPath = "/View/FXML/Map.fxml";
+    private final String lineChartPath= "/View/FXML/LineChart.fxml";
 
     private NavigationController naviController = null;
-    private ChartController chartController = null;
+    private BarChartController barChartController = null;
     private MapController mapController =null;
     enum categorys{
         certificate,region
@@ -51,15 +53,17 @@ public class MainController{
         loader = new FXMLLoader();
         loader.setLocation(getClass().getResource(barChartPath));
         this.barChartLayout = (Chart) loader.load();
-        chartController =loader.getController();
-
+        barChartController =loader.getController();
 
         loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource(mpaPath));
+        loader.setLocation(getClass().getResource(mapPath));
         this.mapLayout = (ImageView) loader.load();
         mapController = loader.getController();
 
+        loader = new FXMLLoader();
 
+        loader.setLocation(getClass().getResource(lineChartPath));
+        this.lineChartLayout = (Chart) loader.load();
     }@FXML
     public void initialize()
     throws IOException {
@@ -67,11 +71,13 @@ public class MainController{
         AnchorPane.setTopAnchor(navigation, 0.0);
         navigationPane.getChildren().add(navigation);
         /*add category*/
-        AnchorPane chartSemi = getSemi(barChartLayout, "자격증 트렌드");
+        AnchorPane barChartSemi = getSemi(barChartLayout, "자격증 트렌드");
         AnchorPane mapSemi = getSemi(mapLayout, "전국 채용 트렌드");
-        
-        naviController.addNaviItem(wrappingPane,"기술 트렌드",chartSemi);
+        AnchorPane lineChartSemi = getSemi(lineChartLayout,"임금률");
+                
+        naviController.addNaviItem(wrappingPane,"기술 트렌드",barChartSemi);
         naviController.addNaviItem(wrappingPane,"지역 트렌드",mapSemi);
+        naviController.addNaviItem(wrappingPane,"임금 트렌드",lineChartSemi);
         /*set default pane*/
 //        contents.getChildren().add(chartSemi);
         

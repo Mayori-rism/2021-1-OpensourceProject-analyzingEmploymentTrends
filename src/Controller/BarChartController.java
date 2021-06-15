@@ -15,14 +15,14 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ChartController {
+public class BarChartController {
     @FXML
     private BarChart<Integer, String> barChart;
 
     @FXML
     private CategoryAxis category;
 
-    public ChartController() {
+    public BarChartController() {
 
     }
 
