@@ -35,7 +35,7 @@ public class LineChartController {
             }
             series.getData().add(new XYChart.Data<>( openData.getJSONObject(i).get("C2_NM").toString(),Integer.parseInt(openData.getJSONObject(i).get("DT").toString())));
         }
-
+        lineChart.setLegendVisible(false);
         lineChart.getData().add(series);
     }
 }

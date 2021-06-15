@@ -55,8 +55,9 @@ public class SemiContentController {
         semiContentLayout.getStyleClass().add("semiPane");
 
         Label semiTitle = (Label) semiContentLayout.lookup("#semiTitle");
+        Label semiDate =  (Label) semiContentLayout.lookup("#semiDate");
         semiTitle.setText(title);
-
+        semiDate.setText(LocalDate.now().toString());
         Pane p = (Pane) semiContentLayout.lookup("#contents");
 
         p.getChildren().add(layout);
